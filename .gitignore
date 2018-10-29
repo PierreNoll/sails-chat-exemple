@@ -89,6 +89,7 @@ config/local.js
 
 node_modules
 
+assets/dependencies/fontawesome-free-5.4.2-web
 
 ################################################
 #
@@ -129,4 +130,3 @@ lib-cov
 *.log
 *.out
 *.pid
-
