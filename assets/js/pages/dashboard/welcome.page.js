@@ -25,7 +25,10 @@ parasails.registerPage('welcome', {
 
     var self=this;
     io.socket.on('new_msg', function(results) {
-      $('#messages').append('<p class="m-0"><strong>'+results.sender+' :</strong> '+results.msg+'</p>');
+      $('#messages').append('<p class="m-0 alert-success"><strong>'+results.sender+' :</strong> '+results.msg+'</p>');
+      setTimeout(function () {
+        $("p").removeClass('alert-success')
+      }, 2000);
     });
 
   },
