@@ -11,6 +11,9 @@ module.exports = {
 
     msg:{
       type:'string'
+    },
+    sender:{
+      type:'string'
     }
 
   },
@@ -23,8 +26,10 @@ module.exports = {
 
   fn: async function (inputs, exits) {
 
-    sails.sockets.blast('new_msg', {
-      msg: inputs.msg
+    sails.sockets.blast('new_msg',
+    {
+      msg: inputs.msg,
+      sender: inputs.sender
     });
 
     sails.log('Done')

@@ -25,7 +25,7 @@ parasails.registerPage('welcome', {
 
     var self=this;
     io.socket.on('new_msg', function(results) {
-      $('#messages').append($('<li>').text(results.msg));
+      $('#messages').append('<p class="m-0"><strong>'+results.sender+' :</strong> '+results.msg+'</p>');
     });
 
   },
@@ -36,9 +36,10 @@ parasails.registerPage('welcome', {
   methods: {
 
     sendMsg : function(){
-      io.socket.post('/api/v1/dashboard/post-message', {msg: this.msg}, function(res, jrws){
+      io.socket.post('/api/v1/dashboard/post-message', {sender:this.me.fullName, msg: this.msg}, function(res, jrws){
         console.log(res, jrws);
-      })
+      });
+      this.msg='';
     }
 
   }
