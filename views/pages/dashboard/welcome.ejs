@@ -1,20 +1,24 @@
 <div id="welcome">
   <div class="container-fluid">
-    <div id="form-message">
-      <form action="" method="post">
-        <div class="d-flex">
+    <div class="row">
+      <div class="col-12">
+        <ul id="messages">
+        </ul>
+      </div>
+    </div>
+    <div class="row fixed-bottom">
+      <div class="col-12">
+        <div class="d-flex p-1">
           <div class="flex-grow-1">
             <div class="form-group">
               <input type="text" class="form-control" name="msg" :value="msg" v-model="msg">
             </div>
           </div>
-          <div class="m-2">
-            <a href="#">
-              <i class="fas fa-paper-plane"></i>
-            </a>
+          <div class="">
+            <button class="btn btn-primary" name="button" @click="sendMsg"><i class="fas fa-paper-plane"></i> Send</button>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
