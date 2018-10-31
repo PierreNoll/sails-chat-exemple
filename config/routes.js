@@ -1,12 +1,12 @@
 /**
- * Route Mappings
- * (sails.config.routes)
- *
- * Your routes tell Sails what to do each time it receives a request.
- *
- * For more information on configuring custom routes, check out:
- * https://sailsjs.com/anatomy/config/routes-js
- */
+* Route Mappings
+* (sails.config.routes)
+*
+* Your routes tell Sails what to do each time it receives a request.
+*
+* For more information on configuring custom routes, check out:
+* https://sailsjs.com/anatomy/config/routes-js
+*/
 
 module.exports.routes = {
 
@@ -34,6 +34,8 @@ module.exports.routes = {
   'GET /account/password':   { action: 'account/view-edit-password' },
   'GET /account/profile':    { action: 'account/view-edit-profile' },
 
+  'GET /api/v1/dashboard/get-previous-messages/:idUser': { action: 'dashboard/get-previous-messages' },
+
 
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
@@ -50,7 +52,7 @@ module.exports.routes = {
   'POST  /api/v1/entrance/update-password-and-login':    { action: 'entrance/update-password-and-login' },
   'POST  /api/v1/deliver-contact-form-message':          { action: 'deliver-contact-form-message' },
 
-     'POST /api/v1/dashboard/post-message': { action: 'dashboard/post-message' },
+  'POST /api/v1/dashboard/post-message': { action: 'dashboard/post-message' },
 
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
