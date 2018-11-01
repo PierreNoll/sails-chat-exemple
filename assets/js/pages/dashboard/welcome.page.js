@@ -58,10 +58,9 @@ parasails.registerPage('welcome', {
     newDiscussion: function(){
       var self=this;
       io.socket.post('/api/v1/dashboard/create-new-discussion', {usersId:[this.me.id]}, function(res, jrws){
-        console.log(res, jrws);
         self.currentDiscussion=res.newDiscussion.id;
-        console.log(self.currentDiscussion)
       });
+      $('#messages').empty();
     },
 
     getDiscussion: function(){
