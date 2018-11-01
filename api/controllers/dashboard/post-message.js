@@ -12,8 +12,9 @@ module.exports = {
     msg:{
       type:'string'
     },
-    sender:{
-      type:'string'
+    discussion:{
+      type:'number',
+      required:true
     }
 
   },
@@ -35,15 +36,19 @@ module.exports = {
 
     await Message.create(Object.assign({
       message:inputs.msg,
-      sender:this.req.me.id,
-      author:this.req.me.id
+      userId:this.req.me.id,
+      userFullName:this.req.me.fullName,
+      discussionId:inputs.discussion,
+      user:this.req.me.id,
+      discussion:inputs.discussion
     }))
     .intercept({name: 'UsageError'}, 'invalid');
 
-    await sails.sockets.blast('new_msg',
+    sails.sockets.blast('new_msg',
     {
       msg: inputs.msg,
-      sender: inputs.sender
+      discussion:inputs.discussion,
+      sender: this.req.me.fullName,
     });
 
     return exits.success();

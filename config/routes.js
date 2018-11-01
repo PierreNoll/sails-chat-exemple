@@ -34,7 +34,8 @@ module.exports.routes = {
   'GET /account/password':   { action: 'account/view-edit-password' },
   'GET /account/profile':    { action: 'account/view-edit-profile' },
 
-  'GET /api/v1/dashboard/get-previous-messages/:idUser': { action: 'dashboard/get-previous-messages' },
+  'GET /api/v1/dashboard/get-discussion/:idDiscussion': { action: 'dashboard/get-discussion' },
+  'GET /api/v1/dashboard/get-discussions': { action: 'dashboard/get-discussions' },
 
 
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
@@ -53,7 +54,7 @@ module.exports.routes = {
   'POST  /api/v1/deliver-contact-form-message':          { action: 'deliver-contact-form-message' },
 
   'POST /api/v1/dashboard/post-message': { action: 'dashboard/post-message' },
-
+  'POST /api/v1/dashboard/create-new-discussion': { action: 'dashboard/create-new-discussion' },
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
   //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗

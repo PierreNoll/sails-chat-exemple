@@ -1,5 +1,5 @@
 /**
- * Message.js
+ * UserDiscussion.js
  *
  * @description :: A model definition.  Represents a database table/collection/etc.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
@@ -13,25 +13,12 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
-    message:{
-      type:'string'
-    },
-
     userId:{
       type:'number',
-      description:'the id of the user who send the message',
-      extendedDescription:`This so we can filter into the find query and not after populate`
-    },
-
-    userFullName:{
-      type:'string',
-      extendedDescription:`we can't go 2 level deep with populate so need this here`
     },
 
     discussionId:{
-      type:'number',
-      description:'the id of the discussion that holds the message',
-      extendedDescription:`This so we can filter into the find query and not after populate`
+      type:'number'
     },
 
 
@@ -51,6 +38,7 @@ module.exports = {
     discussion:{
       model:'Discussion'
     }
+
 
   },
 

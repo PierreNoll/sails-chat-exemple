@@ -1,25 +1,49 @@
 <div id="welcome">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-12">
-        <div id="messages">
-        </div>
-      </div>
-    </div>
-    <div class="row fixed-bottom" style="position:absolute">
-      <div class="col-12">
-        <form v-on:submit.prevent="sendMsg">
-          <div class="d-flex p-1">
-            <div class="flex-grow-1">
-              <div class="form-group">
-                <input id="idInput" type="text" class="form-control" name="msg" :value="msg" v-model="msg">
-              </div>
-            </div>
-            <div class="">
-              <button class="btn btn-primary" type="submit" name="button"><i class="fas fa-paper-plane"></i> Send</button>
+    <div class="row" style="height:100vh;">
+      <div id="sideNav" class="bg-primary col-2">
+        <div class="sticky-top">
+          <div class="row ">
+            <div id="discussions" class="col-12">
+              <p class="m-0" v-for="discussion in discussions">
+                <a class="m-0 text-white" href="#" @click="switchDiscussion(discussion.discussion.id)"><strong>{{(discussion.discussion.title) ? discussion.discussion.title : discussion.discussion.id}}</strong></a>
+              </p>
             </div>
           </div>
-        </form>
+          <div class="row">
+            <div id="actions" class="col-12">
+              <form v-on:submit.prevent="newDiscussion">
+                <button class="btn btn-primary" type="submit" name="button"><i class="fas fa-plus"></i> NEW</button>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div id="onlineUsers" class="col-12">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-10" style="margin-bottom:62px;">currentDiscu: {{currentDiscussion}}
+        <div class="row">
+          <div id="messages" class="col-12">
+          </div>
+        </div>
+        <div class="row fixed-bottom">
+          <div class="offset-2 col-10">
+            <form v-on:submit.prevent="sendMsg">
+              <div class="d-flex p-1">
+                <div class="flex-grow-1">
+                  <div class="form-group">
+                    <input id="idInput" type="text" class="form-control" name="msg" :value="msg" v-model="msg">
+                  </div>
+                </div>
+                <div class="">
+                  <button class="btn btn-primary" type="submit" name="button"><i class="fas fa-paper-plane"></i> Send</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>

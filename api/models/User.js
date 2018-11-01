@@ -165,7 +165,12 @@ email status until they click the link in the confirmation email.`
 
     messages:{
       collection:'Message',
-      via:'author'
+      via:'user'
+    },
+
+    user:{
+      collection:'UserDiscussion',
+      via:'user'
     }
 
   },
