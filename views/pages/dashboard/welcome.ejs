@@ -7,7 +7,9 @@
             <div id="discussions" class="col-12">
               <p class="m-0" v-for="discussion in discussions">
                 <a class="m-0 text-white" href="#" @click="switchDiscussion(discussion.discussion.id)"><strong>{{(discussion.discussion.title) ? discussion.discussion.title : discussion.discussion.id}}</strong>
-                  <sup><span :id="discussion.discussion.id" class="text-warning"></span></sup></a>
+                  <!-- <sup><span :id="discussion.discussion.id" class="text-warning"></span></sup> -->
+                  <sup><span :id="discussion.discussion.id" class="text-warning" v-if="discussion.unreadMessages>0">{{discussion.unreadMessages}}</span></sup>
+                </a>
               </p>
             </div>
           </div>

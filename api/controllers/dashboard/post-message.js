@@ -44,6 +44,18 @@ module.exports = {
     }))
     .intercept({name: 'UsageError'}, 'invalid');
 
+    var discussions = await UserDiscussion.find({
+      where:{discussionId:inputs.discussion, userId:{'!=':this.req.me.id}},
+      select:['id','unreadMessages']
+    });
+
+    for (var i = 0; i < discussions.length; i++) {
+      await UserDiscussion.update({
+        where:{id:discussions[i].id}
+      })
+      .set({unreadMessages:discussions[i].unreadMessages});
+    }
+
     sails.sockets.broadcast(inputs.discussion.toString(),'new_msg',
     {
       msg: inputs.msg,

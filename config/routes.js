@@ -37,6 +37,7 @@ module.exports.routes = {
   'GET /api/v1/dashboard/get-discussion/:idDiscussion': { action: 'dashboard/get-discussion' },
   'GET /api/v1/dashboard/get-discussions': { action: 'dashboard/get-discussions' },
 
+  'GET /api/v1/dashboard/get-unread-messages/:discussionId': { action: 'dashboard/get-unread-messages' },
 
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
@@ -55,6 +56,8 @@ module.exports.routes = {
 
   'POST /api/v1/dashboard/post-message': { action: 'dashboard/post-message' },
   'POST /api/v1/dashboard/create-new-discussion': { action: 'dashboard/create-new-discussion' },
+
+  'PATCH /api/v1/dashboard/reset-unread-messages': { action: 'dashboard/reset-unread-messages' },
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
   //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗

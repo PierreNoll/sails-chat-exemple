@@ -21,6 +21,10 @@ module.exports = {
       type:'number'
     },
 
+    unreadMessages:{
+      type:'number',
+      defaultsTo:0
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

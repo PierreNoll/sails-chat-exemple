@@ -25,9 +25,7 @@ parasails.registerPage('welcome', {
 
     var self=this;
 
-    io.socket.get('/api/v1/dashboard/get-discussions/', function(results){
-      self.discussions=results.discussions;
-    })
+    self.getDiscussions();
 
     io.socket.on('new_msg', function(results) {
       if (results.discussion==self.currentDiscussion) {
@@ -35,25 +33,23 @@ parasails.registerPage('welcome', {
         setTimeout(function () {
           $("p").removeClass('alert-success')
         }, 2000);
+        self.resetUnreadMessages(results.discussion);
       }
       else {
-        var n = parseInt($('#'+results.discussion).text());
-        console.log(n);
-        if (n) {
-          $('#'+results.discussion).text(n+1)
-        }
-        else {
-          $('#'+results.discussion).text(1)
-        }
-
-        // var index= _.findIndex(self.discussions,{discussionId:results.discussion});
-        // console.log(a=index);
-        // self.discussions[index].unreadMessages = self.discussions[index].unreadMessages ? self.discussions[index].unreadMessages+1 : 1;
+        self.getUnreadMessages(results.discussion);
+        // var n = parseInt($('#'+results.discussion).text());
+        // console.log(n);
+        // if (n) {
+        //   $('#'+results.discussion).text(n+1)
+        // }
+        // else {
+        //   $('#'+results.discussion).text(1)
+        // }
       }
     });
 
     io.socket.on('new_discussion', function(results) {
-      self.discussions.push(Object.assign({discussion:results.newDiscussion}));
+      self.getDiscussions();
     });
 
   },
@@ -62,6 +58,13 @@ parasails.registerPage('welcome', {
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
+
+    getDiscussions: function() {
+      var self=this;
+      io.socket.get('/api/v1/dashboard/get-discussions/', function(results){
+        self.discussions=results.discussions;
+      })
+    },
 
     sendMsg : function(){
       $("html, body").animate({ scrollTop: $(document).height() }, 1000);
@@ -90,9 +93,26 @@ parasails.registerPage('welcome', {
 
     switchDiscussion: function(discussionId){
       $('#messages').empty();
-      $('#'+discussionId).empty();
+      //$('#'+discussionId).empty();
       this.currentDiscussion=discussionId;
       this.getDiscussion();
+      this.resetUnreadMessages(discussionId);
+      this.getDiscussions();
+    },
+
+    resetUnreadMessages: function(discussionId){
+      io.socket.patch('/api/v1/dashboard/reset-unread-messages',{discussionId:discussionId},function(res,jrws){
+        console.log(res,jrws);
+      });
+    },
+
+    getUnreadMessages: function(discussionId){
+      var self=this;
+      io.socket.get('/api/v1/dashboard/get-unread-messages/'+discussionId,function(results){
+        var discussion= _.find(self.discussions,{discussionId:discussionId});
+        console.log(a=discussion);
+        discussion.unreadMessages = results.record.unreadMessages;
+      });
     }
 
   }
