@@ -59,6 +59,7 @@ module.exports.routes = {
   'POST /api/v1/dashboard/create-new-discussion': { action: 'dashboard/create-new-discussion' },
 
   'PATCH /api/v1/dashboard/reset-unread-messages': { action: 'dashboard/reset-unread-messages' },
+  'PATCH /api/v1/dashboard/update-discussion-title': { action: 'dashboard/update-discussion-title' },
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
   //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗

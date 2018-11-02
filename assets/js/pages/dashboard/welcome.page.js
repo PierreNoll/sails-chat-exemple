@@ -7,6 +7,7 @@ parasails.registerPage('welcome', {
     discussions:'',
     currentDiscussion:'',
     users:'',
+    setTitle:'',
   },
 
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
@@ -31,7 +32,7 @@ parasails.registerPage('welcome', {
     self.getDiscussions();
 
     io.socket.on('new_msg', function(results) {
-      if (results.discussion==self.currentDiscussion) {
+      if (results.discussion==self.currentDiscussion.discussionId) {
         $('#messages').append('<p class="m-0 alert-success"><strong>'+results.sender+' :</strong> '+results.msg+'</p>');
         setTimeout(function () {
           $("p").removeClass('alert-success')
@@ -52,6 +53,10 @@ parasails.registerPage('welcome', {
     });
 
     io.socket.on('new_discussion', function(results) {
+      self.getDiscussions();
+    });
+
+    io.socket.on('new_title', function(results) {
       self.getDiscussions();
     });
 
@@ -78,7 +83,7 @@ parasails.registerPage('welcome', {
 
     sendMsg : function(){
       $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-      io.socket.post('/api/v1/dashboard/post-message', {msg: this.msg, discussion:this.currentDiscussion}, function(res, jrws){
+      io.socket.post('/api/v1/dashboard/post-message', {msg: this.msg, discussion:this.currentDiscussion.discussionId}, function(res, jrws){
         console.log(res, jrws);
       });
       this.msg='';
@@ -87,13 +92,13 @@ parasails.registerPage('welcome', {
     newDiscussion: function(){
       var self=this;
       io.socket.post('/api/v1/dashboard/create-new-discussion', {usersId:[this.me.id]}, function(res, jrws){
-        self.currentDiscussion=res.newDiscussion.id;
+        self.currentDiscussion.discussionId=res.newDiscussion.id;
       });
       $('#messages').empty();
     },
 
     getDiscussion: function(){
-      io.socket.get('/api/v1/dashboard/get-discussion/'+this.currentDiscussion, function(results){
+      io.socket.get('/api/v1/dashboard/get-discussion/'+this.currentDiscussion.discussionId, function(results){
         for (var i = 0; i < results.discussion.messages.length; i++) {
           $('#messages').append('<p class="m-0"><strong>'+results.discussion.messages[i].userFullName+' :</strong> '+results.discussion.messages[i].message+'</p>');
         }
@@ -104,7 +109,7 @@ parasails.registerPage('welcome', {
     switchDiscussion: function(discussionId){
       $('#messages').empty();
       //$('#'+discussionId).empty();
-      this.currentDiscussion=discussionId;
+      this.currentDiscussion=_.find(this.discussions,{discussionId:discussionId});
       this.getDiscussion();
       this.resetUnreadMessages(discussionId);
       this.getDiscussions();
@@ -123,6 +128,13 @@ parasails.registerPage('welcome', {
         console.log(a=discussion);
         discussion.unreadMessages = results.record.unreadMessages;
       });
+    },
+
+    newTitle: function(){
+      io.socket.patch('/api/v1/dashboard/update-discussion-title',{discussionId:this.currentDiscussion.discussionId, newTitle:this.currentDiscussion.discussion.title},function(res,jrws){
+        console.log(res,jrws);
+      });
+      this.setTitle=false;
     }
 
   }
