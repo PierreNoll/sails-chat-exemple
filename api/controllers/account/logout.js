@@ -35,7 +35,10 @@ actually logged in.  (If they weren't, then this action is just a no-op.)`,
   fn: async function (inputs, exits) {
 
     await User.update({id:this.req.session.userId})
-    .set({connexionStatus:'offline'});
+    .set({
+      connexionStatus:'offline',
+      socketId:''
+    });
 
     // Clear the `userId` property from this session.
     delete this.req.session.userId;

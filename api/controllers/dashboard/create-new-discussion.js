@@ -36,8 +36,10 @@ module.exports = {
 
   fn: async function (inputs, exits) {
 
+    var users=[];
     for (var i = 0; i < inputs.usersId.length; i++) {
-      if (!await User.findOne({id : inputs.usersId[i]})) {
+      users.push(await User.findOne({id : inputs.usersId[i]}));
+      if (!users[i]) {
         throw 'invalid';
       }
     }
@@ -47,6 +49,7 @@ module.exports = {
     }))
     .fetch();
 
+    var socketsId=[];
     for (var i = 0; i < inputs.usersId.length; i++) {
       await UserDiscussion.create(Object.assign({
         userId:inputs.usersId[i],
@@ -54,9 +57,15 @@ module.exports = {
         user:inputs.usersId[i],
         discussion:newDiscussion.id,
       }))
+      socketsId.push(users[i].socketId);
     }
 
-    sails.sockets.blast('new_discussion',
+    // sails.sockets.blast('new_discussion',
+    // {
+    //   newDiscussion:newDiscussion
+    // });
+
+    sails.sockets.broadcast(socketsId,'new_discussion',
     {
       newDiscussion:newDiscussion
     });

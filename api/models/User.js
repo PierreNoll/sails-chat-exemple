@@ -160,6 +160,10 @@ module.exports = {
         defaultsTo:'offline'
       },
 
+      socketId:{
+        type:'ref',
+      },
+
       //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
       //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
       //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
