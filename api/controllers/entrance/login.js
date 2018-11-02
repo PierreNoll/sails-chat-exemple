@@ -107,6 +107,9 @@ and exposed as \`req.me\`.)`
     // Modify the active session instance.
     this.req.session.userId = userRecord.id;
 
+    await User.update({id:userRecord.id})
+    .set({connexionStatus:'online'});
+
     // Send success response (this is where the session actually gets persisted)
     return exits.success();
 

@@ -1,8 +1,8 @@
 /**
- * User.js
- *
- * A user who can log in to this application.
- */
+* User.js
+*
+* A user who can log in to this application.
+*/
 
 module.exports = {
 
@@ -41,18 +41,18 @@ module.exports = {
       type: 'boolean',
       description: 'Whether this user is a "super admin" with extra permissions, etc.',
       extendedDescription:
-`Super admins might have extra permissions, see a different default home page when they log in,
-or even have a completely different feature set from normal users.  In this app, the \`isSuperAdmin\`
-flag is just here as a simple way to represent two different kinds of users.  Usually, it's a good idea
-to keep the data model as simple as possible, only adding attributes when you actually need them for
-features being built right now.
+      `Super admins might have extra permissions, see a different default home page when they log in,
+      or even have a completely different feature set from normal users.  In this app, the \`isSuperAdmin\`
+      flag is just here as a simple way to represent two different kinds of users.  Usually, it's a good idea
+      to keep the data model as simple as possible, only adding attributes when you actually need them for
+      features being built right now.
 
-For example, a "super admin" user for a small to medium-sized e-commerce website might be able to
-change prices, deactivate seasonal categories, add new offerings, and view live orders as they come in.
-On the other hand, for an e-commerce website like Walmart.com that has undergone years of development
-by a large team, those administrative features might be split across a few different roles.
+      For example, a "super admin" user for a small to medium-sized e-commerce website might be able to
+      change prices, deactivate seasonal categories, add new offerings, and view live orders as they come in.
+      On the other hand, for an e-commerce website like Walmart.com that has undergone years of development
+      by a large team, those administrative features might be split across a few different roles.
 
-So, while this \`isSuperAdmin\` demarcation might not be the right approach forever, it's a good place to start.`
+      So, while this \`isSuperAdmin\` demarcation might not be the right approach forever, it's a good place to start.`
     },
 
     passwordResetToken: {
@@ -71,17 +71,17 @@ So, while this \`isSuperAdmin\` demarcation might not be the right approach fore
       protect: true,
       description: 'The id of the customer entry in Stripe associated with this user (or empty string if this user is not linked to a Stripe customer -- e.g. if billing features are not enabled).',
       extendedDescription:
-`Just because this value is set doesn't necessarily mean that this user has a billing card.
-It just means they have a customer entry in Stripe, which might or might not have a billing card.`
+      `Just because this value is set doesn't necessarily mean that this user has a billing card.
+      It just means they have a customer entry in Stripe, which might or might not have a billing card.`
     },
 
     hasBillingCard: {
       type: 'boolean',
       description: 'Whether this user has a default billing card hooked up as their payment method.',
       extendedDescription:
-`More specifically, this indcates whether this user record's linked customer entry in Stripe has
-a default payment source (i.e. credit card).  Note that a user have a \`stripeCustomerId\`
-without necessarily having a billing card.`
+      `More specifically, this indcates whether this user record's linked customer entry in Stripe has
+      a default payment source (i.e. credit card).  Note that a user have a \`stripeCustomerId\`
+      without necessarily having a billing card.`
     },
 
     billingCardBrand: {
@@ -129,51 +129,57 @@ without necessarily having a billing card.`
       defaultsTo: 'confirmed',
       description: 'The confirmation status of the user\'s email address.',
       extendedDescription:
-`Users might be created as "unconfirmed" (e.g. normal signup) or as "confirmed" (e.g. hard-coded
-admin users).  When the email verification feature is enabled, new users created via the
-signup form have \`emailStatus: 'unconfirmed'\` until they click the link in the confirmation email.
-Similarly, when an existing user changes their email address, they switch to the "changeRequested"
-email status until they click the link in the confirmation email.`
+      `Users might be created as "unconfirmed" (e.g. normal signup) or as "confirmed" (e.g. hard-coded
+        admin users).  When the email verification feature is enabled, new users created via the
+        signup form have \`emailStatus: 'unconfirmed'\` until they click the link in the confirmation email.
+        Similarly, when an existing user changes their email address, they switch to the "changeRequested"
+        email status until they click the link in the confirmation email.`
+      },
+
+      emailChangeCandidate: {
+        type: 'string',
+        description: 'The (still-unconfirmed) email address that this user wants to change to.'
+      },
+
+      tosAcceptedByIp: {
+        type: 'string',
+        description: 'The IP (ipv4) address of the request that accepted the terms of service.',
+        extendedDescription: 'Useful for certain types of businesses and regulatory requirements (KYC, etc.)',
+        moreInfoUrl: 'https://en.wikipedia.org/wiki/Know_your_customer'
+      },
+
+      lastSeenAt: {
+        type: 'number',
+        description: 'A JS timestamp (epoch ms) representing the moment at which this user most recently interacted with the backend while logged in (or 0 if they have not interacted with the backend at all yet).',
+        example: 1502844074211
+      },
+
+      connexionStatus:{
+        type:'string',
+        isIn:['online','offline'],
+        defaultsTo:'offline'
+      },
+
+      //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
+      //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
+      //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
+      // n/a
+
+      //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
+      //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
+      //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
+
+      messages:{
+        collection:'Message',
+        via:'user'
+      },
+
+      user:{
+        collection:'UserDiscussion',
+        via:'user'
+      }
+
     },
 
-    emailChangeCandidate: {
-      type: 'string',
-      description: 'The (still-unconfirmed) email address that this user wants to change to.'
-    },
 
-    tosAcceptedByIp: {
-      type: 'string',
-      description: 'The IP (ipv4) address of the request that accepted the terms of service.',
-      extendedDescription: 'Useful for certain types of businesses and regulatory requirements (KYC, etc.)',
-      moreInfoUrl: 'https://en.wikipedia.org/wiki/Know_your_customer'
-    },
-
-    lastSeenAt: {
-      type: 'number',
-      description: 'A JS timestamp (epoch ms) representing the moment at which this user most recently interacted with the backend while logged in (or 0 if they have not interacted with the backend at all yet).',
-      example: 1502844074211
-    },
-
-    //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
-    //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
-    //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
-    // n/a
-
-    //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
-    //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
-    //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
-
-    messages:{
-      collection:'Message',
-      via:'user'
-    },
-
-    user:{
-      collection:'UserDiscussion',
-      via:'user'
-    }
-
-  },
-
-
-};
+  };

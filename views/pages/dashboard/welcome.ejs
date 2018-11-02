@@ -22,6 +22,13 @@
           </div>
           <div class="row">
             <div id="onlineUsers" class="col-12">
+              <p class="m-0" v-for="user in users">
+                <a class="m-0 text-white" href="#"><strong>{{user.fullName}}</strong>
+                  <!-- <sup><span :id="discussion.discussion.id" class="text-warning"></span></sup> -->
+                  <sup><span :id="'user'+user.id" :class="[user.connexionStatus=='online' ? 'text-success' : 'text-secondary']"><i class="fas fa-circle"></i></span></sup>
+                  <span v-if="user.connexionStatus=='offline'">- {{user.lastSeenAt}}</span>
+                </a>
+              </p>
             </div>
           </div>
         </div>

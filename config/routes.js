@@ -38,6 +38,7 @@ module.exports.routes = {
   'GET /api/v1/dashboard/get-discussions': { action: 'dashboard/get-discussions' },
 
   'GET /api/v1/dashboard/get-unread-messages/:discussionId': { action: 'dashboard/get-unread-messages' },
+  'GET /api/v1/dashboard/get-connexion-status': { action: 'dashboard/get-connexion-status' },
 
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗

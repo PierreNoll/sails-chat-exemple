@@ -6,6 +6,7 @@ parasails.registerPage('welcome', {
     msg: '',
     discussions:'',
     currentDiscussion:'',
+    users:'',
   },
 
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
@@ -24,6 +25,8 @@ parasails.registerPage('welcome', {
   mounted: async function() {
 
     var self=this;
+
+    self.getConnexionStatus();
 
     self.getDiscussions();
 
@@ -58,6 +61,13 @@ parasails.registerPage('welcome', {
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
+
+    getConnexionStatus:function(){
+      var self=this;
+      io.socket.get('/api/v1/dashboard/get-connexion-status/', function(results){
+        self.users=results.users;
+      })
+    },
 
     getDiscussions: function() {
       var self=this;
