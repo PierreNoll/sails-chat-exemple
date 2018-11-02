@@ -30,10 +30,26 @@ parasails.registerPage('welcome', {
     })
 
     io.socket.on('new_msg', function(results) {
-      $('#messages').append('<p class="m-0 alert-success"><strong>'+results.sender+' :</strong> '+results.msg+'</p>');
-      setTimeout(function () {
-        $("p").removeClass('alert-success')
-      }, 2000);
+      if (results.discussion==self.currentDiscussion) {
+        $('#messages').append('<p class="m-0 alert-success"><strong>'+results.sender+' :</strong> '+results.msg+'</p>');
+        setTimeout(function () {
+          $("p").removeClass('alert-success')
+        }, 2000);
+      }
+      else {
+        var n = parseInt($('#'+results.discussion).text());
+        console.log(n);
+        if (n) {
+          $('#'+results.discussion).text(n+1)
+        }
+        else {
+          $('#'+results.discussion).text(1)
+        }
+
+        // var index= _.findIndex(self.discussions,{discussionId:results.discussion});
+        // console.log(a=index);
+        // self.discussions[index].unreadMessages = self.discussions[index].unreadMessages ? self.discussions[index].unreadMessages+1 : 1;
+      }
     });
 
     io.socket.on('new_discussion', function(results) {
@@ -74,6 +90,7 @@ parasails.registerPage('welcome', {
 
     switchDiscussion: function(discussionId){
       $('#messages').empty();
+      $('#'+discussionId).empty();
       this.currentDiscussion=discussionId;
       this.getDiscussion();
     }

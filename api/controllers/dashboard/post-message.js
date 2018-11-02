@@ -44,7 +44,7 @@ module.exports = {
     }))
     .intercept({name: 'UsageError'}, 'invalid');
 
-    sails.sockets.blast('new_msg',
+    sails.sockets.broadcast(inputs.discussion.toString(),'new_msg',
     {
       msg: inputs.msg,
       discussion:inputs.discussion,
