@@ -3,7 +3,7 @@
     <div class="row" style="height:100vh;">
       <div id="sideNav" class="col-2" style="background-color:#454545;">
         <div class="sticky-top">
-          <div class="row ">
+          <div class="row mt-5">
             <div id="discussions" class="col-12">
               <p class="m-0" v-for="discussion in discussions">
                 <a class="m-0 text-white" href="#" @click="switchDiscussion(discussion.discussion.id)"><strong>{{(discussion.discussion.title) ? discussion.discussion.title : discussion.discussion.id}}</strong>
@@ -13,7 +13,7 @@
               </p>
             </div>
           </div>
-          <div class="row">
+          <div class="row mt-1">
             <div id="actions" class="col-12">
               <form v-on:submit.prevent="newDiscussion">
                 <button class="btn btn-primary" type="submit" name="button"><i class="fas fa-plus"></i> New Discussion</button>

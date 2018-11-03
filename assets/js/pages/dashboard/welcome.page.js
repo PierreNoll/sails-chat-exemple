@@ -175,8 +175,6 @@ parasails.registerPage('welcome', {
 
     postUsersToAdd: function() {
       var self = this;
-      console.log(c = this.inputUsersToAdd);
-      console.log(d = this.usersToAdd);
       var lightUsersToAdd = [];
 
       var findMatch;
@@ -184,9 +182,10 @@ parasails.registerPage('welcome', {
       for (var i = 0; i < n; i++) {
         findMatch = false;
         for (var j = 0; j < this.users.length; j++) { // Check if the fullName match a real one
-          if (this.inputUsersToAdd[i] == this.users[j]) { // Si on trouve une correspondance on note l'id à ajouter et on passe au suivant
+          if (this.inputUsersToAdd[i] == this.users[j].fullName) { // Si on trouve une correspondance on note l'id à ajouter et on passe au suivant
             findMatch = true;
             lightUsersToAdd.push(this.users[j].id);
+            console.log('correspondance avec un user')
             break;
           }
         }
