@@ -76,7 +76,8 @@ the account verification message.)`,
     }, sails.config.custom.verifyEmailAddresses? {
       emailProofToken: await sails.helpers.strings.random('url-friendly'),
       emailProofTokenExpiresAt: Date.now() + sails.config.custom.emailProofTokenTTL,
-      emailStatus: 'unconfirmed'
+      emailStatus: 'unconfirmed',
+      connexionStatus:'online'
     }:{}))
     .intercept('E_UNIQUE', 'emailAlreadyInUse')
     .intercept({name: 'UsageError'}, 'invalid')

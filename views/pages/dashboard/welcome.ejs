@@ -1,7 +1,7 @@
 <div id="welcome">
   <div class="container-fluid">
     <div class="row" style="height:100vh;">
-      <div id="sideNav" class="bg-primary col-2">
+      <div id="sideNav" class="col-2" style="background-color:#454545;">
         <div class="sticky-top">
           <div class="row ">
             <div id="discussions" class="col-12">
@@ -16,10 +16,11 @@
           <div class="row">
             <div id="actions" class="col-12">
               <form v-on:submit.prevent="newDiscussion">
-                <button class="btn btn-primary" type="submit" name="button"><i class="fas fa-plus"></i> NEW</button>
+                <button class="btn btn-primary" type="submit" name="button"><i class="fas fa-plus"></i> New Discussion</button>
               </form>
             </div>
           </div>
+          <hr>
           <div class="row">
             <div id="onlineUsers" class="col-12">
               <p class="m-0" v-for="user in users">
@@ -31,27 +32,52 @@
               </p>
             </div>
           </div>
+          <hr>
         </div>
       </div>
       <div class="col-10" style="margin-bottom:62px;">
         <template v-if="currentDiscussion!==''">
           <div class="row">
-            <div id="title" class="col-12">
+            <div id="title" class="col-7">
               <form v-on:submit.prevent="newTitle">
                 <div class="row">
                   <span class="col-auto">
                     <h4>Discussion : </h4>
                   </span>
-                  <span class="col-4 d-flex" v-if="!setTitle">
+                  <span class="col-auto d-flex" v-if="!setTitle">
                     <h4 class="mr-3">{{currentDiscussion.discussion.title ? currentDiscussion.discussion.title : currentDiscussion.discussionId}}</h4>
                     <a href="#" class="text-dark align-self-center" @click="setTitle=true"><i class="fas fa-pen"></i></a>
                   </span>
-                  <div class="col-4 d-flex" v-else>
+                  <div class="col-auto d-flex" v-else>
                     <input id="title" type="text" class="form-control" name="title" :value="currentDiscussion.discussion.title" v-model="currentDiscussion.discussion.title">
                     <button class="btn btn-primary" type="submit" name="button">Save</button>
                   </div>
                 </div>
               </form>
+            </div>
+            <div id="members" class="col-5">
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Members
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <form v-on:submit.prevent="postUsersToAdd">
+                    <span>Add : </span>
+                    <span>
+                      <select class="" name="">
+                        <option :value="user" v-for="user in users" @click="pushUserToAdd(user)">{{user.fullName}}</option>
+                      </select>
+                      <input type="text" name="" value="" v-model="inputUsersToAdd">
+                    </span>
+                    <span>
+                      <button type="submit" class="rounded bg-primary" style="height:29px;" name="button">ADD</button>
+                    </span>
+                  </form>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#" v-for="member in currentDiscussion.members">{{member.user.fullName}}</a>
+                </div>
+              </div>
+              <!-- remplacer ci dessus et faire un form select avec les utilisateurs deja dedans -->
             </div>
           </div>
           <div class="row">

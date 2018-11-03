@@ -53,8 +53,10 @@ module.exports = {
       await UserDiscussion.update({
         where:{id:discussions[i].id}
       })
-      .set({unreadMessages:discussions[i].unreadMessages});
+      .set({unreadMessages:discussions[i].unreadMessages+1});
     }
+
+    sails.log('post-message to the room'+inputs.discussion.toString());
 
     sails.sockets.broadcast(inputs.discussion.toString(),'new_msg',
     {

@@ -40,11 +40,14 @@ module.exports = {
     })
     .populate('discussion');
 
+    var roomName='';
     for (var i = 0; i < discussions.length; i++) {
-      sails.sockets.join(this.req, discussions[i].id.toString(), function(err) {
+      roomName=discussions[i].discussionId.toString();
+      sails.sockets.join(this.req,roomName , function(err) {
         if (err) {
           throw 'socketCannotJoinRoom';
         }
+        sails.log('join the room'+roomName)
       })
     };
 
