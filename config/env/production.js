@@ -61,7 +61,7 @@ module.exports = {
 
       adapter: 'sails-mongo',
       url: process.env.MONGO_DB_SAILS_URI,
-      
+
       /****************************************************************************
       *                                                                           *
       * More adapter-specific options                                             *
@@ -253,10 +253,11 @@ module.exports = {
     * > Be sure to use the right protocol!  ("http://" vs. "https://")         *
     *                                                                          *
     ***************************************************************************/
-    // onlyAllowOrigins: [
-    //   'https://example.com',
-    //   'https://staging.example.com',
-    // ],
+    onlyAllowOrigins: [
+      //'https://example.com',
+      //'https://staging.example.com',
+      'https://sails-chat-exemple.herokuapp.com/'
+    ],
 
 
     /***************************************************************************
@@ -325,7 +326,7 @@ module.exports = {
     * (https://sailsjs.com/config/http)                                        *
     *                                                                          *
     ***************************************************************************/
-    // trustProxy: true,
+    trustProxy: true,
 
   },
 
