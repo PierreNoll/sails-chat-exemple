@@ -29,7 +29,8 @@ parasails.registerPage('welcome', {
 
     var self = this;
 
-    self.getConnexionStatus();
+    //self.getConnexionStatus();
+    setInterval(self.getConnexionStatus, 1000);
 
     self.getDiscussions();
 
@@ -72,6 +73,7 @@ parasails.registerPage('welcome', {
       var self = this;
       io.socket.get('/api/v1/dashboard/get-connexion-status/', function(results) {
         self.users = results.users;
+        console.log('refresh connexion')
       })
     },
 
