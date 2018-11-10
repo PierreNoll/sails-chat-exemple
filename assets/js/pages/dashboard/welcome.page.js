@@ -8,8 +8,7 @@ parasails.registerPage('welcome', {
     currentDiscussion: '',
     users: '',
     setTitle: '',
-    usersToAdd: [],
-    inputUsersToAdd: '',
+    inputUsersToAdd: [],
   },
 
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
@@ -170,9 +169,8 @@ parasails.registerPage('welcome', {
       this.setTitle = false;
     },
 
-    pushUserToAdd: function(user) {
-      this.usersToAdd.push(user);
-      this.inputUsersToAdd = _.map(this.usersToAdd, 'fullName');
+    pushUserToAdd: function() {
+      this.inputUsersToAdd.push(event.target.value);
     },
 
     postUsersToAdd: function() {
@@ -211,8 +209,7 @@ parasails.registerPage('welcome', {
         self.getDiscussionMembers(self.currentDiscussion.discussionId);
       });
 
-      this.usersToAdd = [];
-      this.inputUsersToAdd = '';
+      this.inputUsersToAdd = [];
     },
 
   }

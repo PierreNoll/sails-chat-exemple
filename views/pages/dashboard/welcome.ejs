@@ -64,8 +64,8 @@
                   <form v-on:submit.prevent="postUsersToAdd">
                     <span>Add : </span>
                     <span>
-                      <select class="" name="">
-                        <option :value="user" v-for="user in users" @click="pushUserToAdd(user)">{{user.fullName}}</option>
+                      <select class="" name="" v-on:change="pushUserToAdd">
+                        <option :value="user.fullName" v-for="user in users">{{user.fullName}}</option>
                       </select>
                       <input type="text" name="" value="" v-model="inputUsersToAdd">
                     </span>
