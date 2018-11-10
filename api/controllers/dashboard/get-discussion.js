@@ -10,7 +10,7 @@ module.exports = {
   inputs: {
 
     idDiscussion:{
-      type:'number'
+      type:'string'
     }
 
   },

@@ -13,7 +13,7 @@ module.exports = {
       type:'string'
     },
     discussion:{
-      type:'number',
+      type:'string',
       required:true
     }
 

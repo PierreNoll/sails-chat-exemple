@@ -14,11 +14,11 @@ module.exports = {
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
     userId:{
-      type:'number',
+      type:'string',
     },
 
     discussionId:{
-      type:'number'
+      type:'string'
     },
 
     unreadMessages:{

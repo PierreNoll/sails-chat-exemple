@@ -18,7 +18,7 @@ module.exports = {
     },
 
     userId:{
-      type:'number',
+      type:'string',
       description:'the id of the user who send the message',
       extendedDescription:`This so we can filter into the find query and not after populate`
     },
@@ -29,7 +29,7 @@ module.exports = {
     },
 
     discussionId:{
-      type:'number',
+      type:'string',
       description:'the id of the discussion that holds the message',
       extendedDescription:`This so we can filter into the find query and not after populate`
     },

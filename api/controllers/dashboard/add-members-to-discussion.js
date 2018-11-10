@@ -14,7 +14,7 @@ module.exports = {
     },
 
     discussionId:{
-      type:'number'
+      type:'string'
     }
 
   },
