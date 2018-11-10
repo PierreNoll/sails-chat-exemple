@@ -90,7 +90,7 @@ parasails.registerPage('welcome', {
         msg: this.msg,
         discussion: this.currentDiscussion.discussionId
       }, function(res, jrws) {
-        console.log(res, jrws);
+        //console.log(res, jrws);
       });
       this.msg = '';
     },
@@ -125,7 +125,7 @@ parasails.registerPage('welcome', {
         });
         discussion.members = results.members;
         self.currentDiscussion = discussion;
-        console.log(a = self.currentDiscussion)
+        //console.log(a = self.currentDiscussion)
       })
     },
 
@@ -144,7 +144,7 @@ parasails.registerPage('welcome', {
       io.socket.patch('/api/v1/dashboard/reset-unread-messages', {
         discussionId: discussionId
       }, function(res, jrws) {
-        console.log(res, jrws);
+        //console.log(res, jrws);
       });
     },
 
@@ -163,7 +163,7 @@ parasails.registerPage('welcome', {
         discussionId: this.currentDiscussion.discussionId,
         newTitle: this.currentDiscussion.discussion.title
       }, function(res, jrws) {
-        console.log(res, jrws);
+        //console.log(res, jrws);
       });
       this.setTitle = false;
     },
@@ -185,7 +185,7 @@ parasails.registerPage('welcome', {
           if (this.inputUsersToAdd[i] == this.users[j].fullName) { // Si on trouve une correspondance on note l'id à ajouter et on passe au suivant
             findMatch = true;
             lightUsersToAdd.push(this.users[j].id);
-            console.log('correspondance avec un user')
+            //console.log('correspondance avec un user')
             break;
           }
         }
