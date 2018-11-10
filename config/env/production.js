@@ -200,8 +200,8 @@ module.exports = {
     //
     //--------------------------------------------------------------------------
 
-    adapter: 'connect-mongo',
-		url: process.env.MONGO_DB_SAILS_URI,
+    // adapter: 'connect-mongo',
+		// url: process.env.MONGO_DB_SAILS_URI,
 
     /***************************************************************************
     *                                                                          *
