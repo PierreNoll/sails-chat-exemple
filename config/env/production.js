@@ -375,7 +375,7 @@ module.exports = {
   *                                                                         *
   ***************************************************************************/
   custom: {
-    //baseUrl: 'https://sails-chat-exemple.com',
+    baseUrl: 'https://sails-chat-exemple.herokuapp.com',
     internalEmailAddress: 'support@example.com',
 
     // mailgunDomain: 'mg.example.com',
