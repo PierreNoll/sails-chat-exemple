@@ -256,7 +256,7 @@ module.exports = {
     onlyAllowOrigins: [
       //'https://example.com',
       //'https://staging.example.com',
-      'https://sails-chat-exemple.herokuapp.com/'
+      'https://sails-chat-exemple.herokuapp.com'
     ],
 
 
