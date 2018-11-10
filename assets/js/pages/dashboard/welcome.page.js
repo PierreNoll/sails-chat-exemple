@@ -169,8 +169,8 @@ parasails.registerPage('welcome', {
       this.setTitle = false;
     },
 
-    pushUserToAdd: function() {
-      this.inputUsersToAdd.push(event.target.value);
+    pushUserToAdd: function(e) {
+      this.inputUsersToAdd.push(e.target.value);
     },
 
     postUsersToAdd: function() {
