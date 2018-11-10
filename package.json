@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "engines": {
-  "node": "8.11.3"
+    "node": ">=8.11"
   },
   "description": "a Sails application",
   "keywords": [],
@@ -12,6 +12,7 @@
     "@sailshq/lodash": "^3.10.3",
     "@sailshq/socket.io-redis": "^5.2.0",
     "async": "2.0.1",
+    "connect-mongo": "^2.0.1",
     "moment": "^2.22.2",
     "sails": "^1.0.2",
     "sails-hook-apianalytics": "^2.0.0",
@@ -42,8 +43,5 @@
     "url": "git://github.com/anonymous node/sails user/sails-chat-exemple.git"
   },
   "author": "anonymous node/sails user",
-  "license": "",
-  "engines": {
-    "node": ">=8.11"
-  }
+  "license": ""
 }
