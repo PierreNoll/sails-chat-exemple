@@ -25,9 +25,9 @@ module.exports = {
       select:['fullName','connexionStatus','lastSeenAt']
     });
 
-    for (var i = 0; i < users.length; i++) {
-      users[i].lastSeenAt=moment(users[i].lastSeenAt).fromNow();
-    }
+    // for (var i = 0; i < users.length; i++) {
+    //   users[i].lastSeenAt=moment(users[i].lastSeenAt).fromNow();
+    // }
 
     //sails.log('req login is socket : '+this.req.isSocket);
     if (this.req.isSocket) {

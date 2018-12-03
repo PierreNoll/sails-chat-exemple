@@ -64,12 +64,38 @@ and exposed as \`req.me\`.)`
       // To customize the response for _only this_ action, replace `responseType` with
       // something else.  For example, you might set `statusCode: 498` and change the
       // implementation below accordingly (see http://sailsjs.com/docs/concepts/controllers).
+    },
+
+    demandAlreadyMade: {
+      description: `La demande d'inscription est en cours de traitement.`,
+      responseType: 'unauthorized'
+      // ^This uses the custom `unauthorized` response located in `api/responses/unauthorized.js`.
+      // To customize the generic "unauthorized" response across this entire app, change that file
+      // (see api/responses/unauthorized).
+      //
+      // To customize the response for _only this_ action, replace `responseType` with
+      // something else.  For example, you might set `statusCode: 498` and change the
+      // implementation below accordingly (see http://sailsjs.com/docs/concepts/controllers).
     }
 
   },
 
 
   fn: async function (inputs, exits) {
+
+    var moment = require('moment');
+
+    //Look up the email address in the Demande_inscription to see if the user already ask to sign up and
+    // to respond with a message to tell him that his demand is being treated
+
+    var userDemandRecord = await DemandInscription.findOne({
+      emailAddress: inputs.emailAddress.toLowerCase(),
+    });
+
+    // If there was a matching user, respond thru the "demandAlreadyMade" exit.
+    if(userDemandRecord) {
+      throw 'demandAlreadyMade';
+    }
 
     // Look up by the email address.
     // (note that we lowercase it to ensure the lookup is always case-insensitive,
@@ -109,6 +135,11 @@ and exposed as \`req.me\`.)`
 
     await User.update({id:userRecord.id})
     .set({connexionStatus:'online'});
+
+    var userConnexionStatus = _.pick(userRecord, ['id','fullName','connexionStatus','lastSeenAt']);
+    userConnexionStatus.connexionStatus='online';
+
+    sails.sockets.blast('user_logged_inout',{user:userConnexionStatus}, this.req);
 
     // Send success response (this is where the session actually gets persisted)
     return exits.success();

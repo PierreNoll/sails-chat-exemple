@@ -19,6 +19,10 @@ module.exports = {
       allowNull:true
     },
 
+    status:{
+      type:'boolean',
+      defaultsTo:true
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

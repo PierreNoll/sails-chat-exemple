@@ -8,20 +8,22 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "@google-cloud/speech": "^2.1.1",
     "@sailshq/connect-redis": "^3.2.1",
     "@sailshq/lodash": "^3.10.3",
     "@sailshq/socket.io-redis": "^5.2.0",
     "async": "2.0.1",
+    "bootstrap-vue": "^2.0.0-rc.11",
     "connect-mongo": "^2.0.1",
+    "grunt": "1.0.1",
     "moment": "^2.22.2",
     "sails": "^1.0.2",
     "sails-hook-apianalytics": "^2.0.0",
+    "sails-hook-grunt": "^3.0.2",
     "sails-hook-organics": "^0.13.0",
     "sails-hook-orm": "^2.0.0-16",
     "sails-hook-sockets": "^1.4.0",
-    "sails-mongo": "^1.0.1",
-    "grunt": "1.0.1",
-    "sails-hook-grunt": "^3.0.2"
+    "sails-mongo": "^1.0.1"
   },
   "devDependencies": {
     "@sailshq/eslint": "^4.19.3",

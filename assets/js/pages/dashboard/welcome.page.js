@@ -6,7 +6,7 @@ parasails.registerPage('welcome', {
     msg: '',
     discussions: '',
     currentDiscussion: '',
-    users: '',
+    users: [],
     setTitle: '',
     inputUsersToAdd: [],
   },
@@ -28,17 +28,29 @@ parasails.registerPage('welcome', {
 
     var self = this;
 
-    //self.getConnexionStatus();
-    setInterval(self.getConnexionStatus, 1000);
+    self.getConnexionStatus();
+    //setInterval(self.getConnexionStatus, 1000);
+
+    io.socket.on('user_logged_inout',function(results){
+      var existingUser = _.find(self.users,{'id':results.user.id});
+      existingUser.connexionStatus=results.user.connexionStatus;
+      existingUser.lastSeenAt=results.user.lastSeenAt;
+    });
 
     self.getDiscussions();
 
     io.socket.on('new_msg', function(results) {
       if (results.discussion == self.currentDiscussion.discussionId) {
-        $('#messages').append('<p class="m-0 alert-success"><strong>' + results.sender + ' :</strong> ' + results.msg + '</p>');
+        $('#messages').append('<p class="m-0 alert-success"><strong>' + results.sender + ' :</strong> ' + results.msg + '</p>'
+        +'<p class="font-weight-light font-italic"><small>'+moment(results.createdAt).format("dddd, MMMM Do YYYY, h:mm:ss a")+'</small></p>'
+        +'<hr>'
+      );
         setTimeout(function() {
           $("p").removeClass('alert-success')
         }, 2000);
+        $("html, body").animate({
+          scrollTop: $(document).height()
+        }, 200);
         self.resetUnreadMessages(results.discussion);
       } else {
         self.getUnreadMessages(results.discussion);
@@ -61,6 +73,10 @@ parasails.registerPage('welcome', {
       self.getDiscussions();
     });
 
+    io.socket.on('discussionClosed', function(results) {
+      self.getDiscussions();
+    });
+
   },
 
   //  ╦╔╗╔╔╦╗╔═╗╦═╗╔═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
@@ -68,11 +84,22 @@ parasails.registerPage('welcome', {
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
 
+    refreshLastSeenAt: function(){
+      var self = this;
+      for (var i = 0; i < this.users.length; i++) {
+      if (this.users[i].connexionStatus=='online' && moment().diff(this.users[i].lastSeenAt)>86400000) {
+          this.users[i].connexionStatus='offline';
+        }
+        $('#userLastSeenAt'+this.users[i].id).text(moment(this.users[i].lastSeenAt).fromNow());
+      }
+      setTimeout(self.refreshLastSeenAt, 1000);
+    },
+
     getConnexionStatus: function() {
       var self = this;
       io.socket.get('/api/v1/dashboard/get-connexion-status/', function(results) {
         self.users = results.users;
-        console.log('refresh connexion')
+        self.refreshLastSeenAt();
       })
     },
 
@@ -80,13 +107,11 @@ parasails.registerPage('welcome', {
       var self = this;
       io.socket.get('/api/v1/dashboard/get-discussions/', function(results) {
         self.discussions = results.discussions;
+        //console.log(a=self.discussions)
       })
     },
 
     sendMsg: function() {
-      $("html, body").animate({
-        scrollTop: $(document).height()
-      }, 1000);
       io.socket.post('/api/v1/dashboard/post-message', {
         msg: this.msg,
         discussion: this.currentDiscussion.discussionId
@@ -109,7 +134,11 @@ parasails.registerPage('welcome', {
     getDiscussion: function() {
       io.socket.get('/api/v1/dashboard/get-discussion/' + this.currentDiscussion.discussionId, function(results) {
         for (var i = 0; i < results.discussion.messages.length; i++) {
-          $('#messages').append('<p class="m-0"><strong>' + results.discussion.messages[i].userFullName + ' :</strong> ' + results.discussion.messages[i].message + '</p>');
+          $('#messages').append(
+            '<p class="m-0"><strong>' + results.discussion.messages[i].userFullName + ' :</strong> ' + results.discussion.messages[i].message + '</p>'
+            +'<p class="font-weight-light font-italic"><small>'+moment(results.discussion.messages[i].createdAt).format("dddd, MMMM Do YYYY, h:mm:ss a")+'</small></p>'
+            +'<hr>'
+          );
         }
         $("html, body").animate({
           scrollTop: $(document).height()
@@ -211,6 +240,19 @@ parasails.registerPage('welcome', {
 
       this.inputUsersToAdd = [];
     },
+
+    closeDiscussion: function(){
+      io.socket.patch('/api/v1/dashboard/close-discussion', {
+        discussionId: this.currentDiscussion.discussionId,
+      }, function(res, jrws) {
+        //console.log(res, jrws);
+      });
+      this.currentDiscussion.discussion.status=false;
+      var indexDiscussion = _.findIndex(this.discussions, {
+        discussionId: this.currentDiscussion.discussionId
+      });
+      this.discussions[indexDiscussion]=this.currentDiscussion;
+    }
 
   }
 });

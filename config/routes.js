@@ -14,7 +14,7 @@ module.exports.routes = {
   //  ╦ ╦╔═╗╔╗ ╔═╗╔═╗╔═╗╔═╗╔═╗
   //  ║║║║╣ ╠╩╗╠═╝╠═╣║ ╦║╣ ╚═╗
   //  ╚╩╝╚═╝╚═╝╩  ╩ ╩╚═╝╚═╝╚═╝
-  'GET /':                   { action: 'view-homepage-or-redirect' },
+  'GET /':                   { action: 'view-login-or-redirect' },
   'GET /welcome':            { action: 'dashboard/view-welcome' },
 
   'GET /faq':                { view:   'pages/faq' },
@@ -41,6 +41,8 @@ module.exports.routes = {
   'GET /api/v1/dashboard/get-connexion-status': { action: 'dashboard/get-connexion-status' },
   'GET /api/v1/dashboard/get-discussion-members/:discussionId': { action: 'dashboard/get-discussion-members' },
 
+  'GET /admin/gerer-demandes':                       { action: 'admin/view-gerer-demandes' },
+
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
@@ -61,8 +63,11 @@ module.exports.routes = {
 
   'PATCH /api/v1/dashboard/reset-unread-messages': { action: 'dashboard/reset-unread-messages' },
   'PATCH /api/v1/dashboard/update-discussion-title': { action: 'dashboard/update-discussion-title' },
+  'PATCH /api/v1/dashboard/close-discussion': { action: 'dashboard/close-discussion' },
   'POST /api/v1/dashboard/add-members-to-discussion': { action: 'dashboard/add-members-to-discussion' },
 
+  'POST /api/v1/admin/valider-inscription':              { action: 'admin/valider-inscription' },
+  'POST /api/v1/admin/remove-inscription-demande':       { action: 'admin/remove-inscription-demande' },
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
   //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗
   //  ╚╩╝╚═╝╚═╝╩ ╩╚═╝╚═╝╩ ╩╚═╝

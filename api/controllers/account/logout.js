@@ -34,11 +34,18 @@ actually logged in.  (If they weren't, then this action is just a no-op.)`,
 
   fn: async function (inputs, exits) {
 
+    var moment = require('moment');
+
     await User.update({id:this.req.session.userId})
     .set({
       connexionStatus:'offline',
       socketId:''
     });
+
+    var userConnexionStatus = _.pick(this.req.me, ['id','fullName','connexionStatus','lastSeenAt']);
+    userConnexionStatus.connexionStatus='offline';
+
+    sails.sockets.blast('user_logged_inout',{user:userConnexionStatus}, this.req);
 
     // Clear the `userId` property from this session.
     delete this.req.session.userId;

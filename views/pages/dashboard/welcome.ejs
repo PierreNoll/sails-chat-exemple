@@ -1,12 +1,12 @@
 <div id="welcome">
   <div class="container-fluid">
     <div class="row" style="height:100vh;">
-      <div id="sideNav" class="col-2" style="background-color:#454545;">
+      <div id="sideNav" class="col-md-2 col-12" style="background-color:#454545;">
         <div class="sticky-top">
           <div class="row mt-5">
             <div id="discussions" class="col-12">
               <p class="m-0" v-for="discussion in discussions">
-                <a class="m-0 text-white" href="#" @click="switchDiscussion(discussion.discussion.id)"><strong>{{(discussion.discussion.title) ? discussion.discussion.title : discussion.discussion.id}}</strong>
+                <a :class="[discussion.discussion.status ? 'm-0 text-white' :'m-0 text-white-50']" href="#" @click="switchDiscussion(discussion.discussion.id)"><strong>{{(discussion.discussion.title) ? discussion.discussion.title : discussion.discussion.id}}</strong>
                   <!-- <sup><span :id="discussion.discussion.id" class="text-warning"></span></sup> -->
                   <sup><span :id="discussion.discussion.id" class="text-warning" v-if="discussion.unreadMessages>0">{{discussion.unreadMessages}}</span></sup>
                 </a>
@@ -23,11 +23,11 @@
           <hr>
           <div class="row">
             <div id="onlineUsers" class="col-12">
-              <p class="m-0" v-for="user in users">
+              <p class="m-0" v-for="(user, index) in users">
                 <a class="m-0 text-white" href="#"><strong>{{user.fullName}}</strong>
                   <!-- <sup><span :id="discussion.discussion.id" class="text-warning"></span></sup> -->
                   <sup><span :id="'user'+user.id" :class="[user.connexionStatus=='online' ? 'text-success' : 'text-secondary']"><i class="fas fa-circle"></i></span></sup>
-                  <span v-if="user.connexionStatus=='offline'">- {{user.lastSeenAt}}</span>
+                  <span class="font-weight-light font-italic" :id="'userLastSeenAt'+user.id" v-if="user.connexionStatus=='offline'"></span>
                 </a>
               </p>
             </div>
@@ -35,10 +35,10 @@
           <hr>
         </div>
       </div>
-      <div class="col-10" style="margin-bottom:62px;">
+      <div class="col-md-10 col-12" style="margin-bottom:62px;">
         <template v-if="currentDiscussion!==''">
           <div class="row">
-            <div id="title" class="col-7">
+            <div id="title" class="col-md-7 col-12">
               <form v-on:submit.prevent="newTitle">
                 <div class="row">
                   <span class="col-auto">
@@ -55,7 +55,7 @@
                 </div>
               </form>
             </div>
-            <div id="members" class="col-5">
+            <div id="members" class="col-md-3 col-6">
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Members
@@ -77,7 +77,11 @@
                   <a class="dropdown-item" href="#" v-for="member in currentDiscussion.members">{{member.user.fullName}}</a>
                 </div>
               </div>
-              <!-- remplacer ci dessus et faire un form select avec les utilisateurs deja dedans -->
+            </div>
+            <div id="discussionStatus" class="col-md-2 col-6">
+              <button class="btn btn-danger" type="button" @click="closeDiscussion">
+                <i class="fas fa-times-circle"></i> Terminer la discussion
+              </button>
             </div>
           </div>
           <div class="row">
@@ -85,12 +89,12 @@
             </div>
           </div>
           <div class="row fixed-bottom">
-            <div class="offset-2 col-10">
-              <form v-on:submit.prevent="sendMsg">
+            <div class="offset-md-2 col-md-10 col-12">
+              <form v-on:submit.prevent="sendMsg" v-if="currentDiscussion.discussion.status">
                 <div class="d-flex p-1">
                   <div class="flex-grow-1">
                     <div class="form-group">
-                      <input id="idInput" type="text" class="form-control" name="msg" :value="msg" v-model="msg">
+                      <textarea id="idInput" rows="1" class="form-control" name="msg" :value="msg" v-model="msg" @keyup.enter="sendMsg"></textarea>
                     </div>
                   </div>
                   <div class="">

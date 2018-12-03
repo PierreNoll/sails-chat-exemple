@@ -59,6 +59,11 @@ the account verification message.)`,
       description: 'The provided email address is already in use.',
     },
 
+    demandAlreadyMade: {
+      description: `Une demande d'inscription a déjà été réalisée avec cet email.`,
+      statusCode: 409,
+    }
+
   },
 
 
@@ -66,20 +71,27 @@ the account verification message.)`,
 
     var newEmailAddress = inputs.emailAddress.toLowerCase();
 
-    // Build up data for the new user record and save it to the database.
-    // (Also use `fetch` to retrieve the new ID so that we can use it below.)
-    var newUserRecord = await User.create(Object.assign({
+    var emailAlreadyInUse = await User.findOne(Object.assign({
+      emailAddress: newEmailAddress,
+    }))
+    .intercept({name: 'UsageError'}, 'invalid');
+
+    // If there was a matching user, respond thru the "emailAlreadyInUse" exit.
+    if(emailAlreadyInUse) {
+      throw 'emailAlreadyInUse';
+    }
+
+    var newDemandeRecord = await DemandInscription.create(Object.assign({
       emailAddress: newEmailAddress,
       password: await sails.helpers.passwords.hashPassword(inputs.password),
       fullName: inputs.fullName,
       tosAcceptedByIp: this.req.ip,
-      connexionStatus:'online'
     }, sails.config.custom.verifyEmailAddresses? {
       emailProofToken: await sails.helpers.strings.random('url-friendly'),
       emailProofTokenExpiresAt: Date.now() + sails.config.custom.emailProofTokenTTL,
-      emailStatus: 'unconfirmed',
+      emailStatus: 'unconfirmed'
     }:{}))
-    .intercept('E_UNIQUE', 'emailAlreadyInUse')
+    .intercept('E_UNIQUE', 'demandAlreadyMade')
     .intercept({name: 'UsageError'}, 'invalid')
     .fetch();
 
@@ -94,8 +106,6 @@ the account verification message.)`,
       });
     }
 
-    // Store the user's new id in their session.
-    this.req.session.userId = newUserRecord.id;
 
     if (sails.config.custom.verifyEmailAddresses) {
       // Send "confirm account" email

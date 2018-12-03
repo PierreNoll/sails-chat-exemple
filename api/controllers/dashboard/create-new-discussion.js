@@ -45,7 +45,7 @@ module.exports = {
     }
 
     var newDiscussion = await Discussion.create(Object.assign({
-      title:inputs.title,
+      title:inputs.title ? inputs.title : 'New discussion',
     }))
     .fetch();
 

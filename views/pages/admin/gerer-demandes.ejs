@@ -1,0 +1,77 @@
+<div id="gerer-demandes" v-cloak>
+  <!-- Une alerte pour le succès de l'ajout d'un contributeur -->
+  <div class="container">
+    <b-alert :show="dismissCountDownSuccessInscription" dismissible variant="success" @dismissed="dismissCountDownSuccessInscription=0" @dismiss-count-down="countDownChanged">
+      <p>Utilisateur ajouté avec succès!</p>
+      <p>Le contenu de la page sera rechargé dans {{dismissCountDown}} secondes...</p>
+      <b-progress variant="success" :max="dismissSecs" :value="dismissCountDown" height="4px">
+      </b-progress>
+    </b-alert>
+    <b-alert :show="dismissCountDownSuccessRmInscription" dismissible variant="success" @dismissed="dismissCountDownSuccessRmInscription=0" @dismiss-count-down="countDownChanged">
+      <p>Suppression de la demande d'inscription traitée avec succès!</p>
+      <p>Le contenu de la page sera rechargé dans {{dismissCountDown}} secondes...</p>
+      <b-progress variant="success" :max="dismissSecs" :value="dismissCountDown" height="4px">
+      </b-progress>
+    </b-alert>
+
+    <!-- Template pour les demandes d'inscription. Contient une table avec des controles pour effectuer des recherches,
+ainsi que 2 Ajax-form cachés pour valider ou supprimer les demandes selectionnées -->
+    <template>
+      <div id="demandesInscription" class="mb-5">
+        <h1>Demandes Inscription</h1>
+        <!-- User Interface controls for the table pour les inscription -->
+        <b-row>
+          <b-col md="6" class="my-1 mb-3">
+            <b-form-group horizontal label="Rechercher" class="mb-0">
+              <b-input-group>
+                <b-form-input v-model="filterInscription" placeholder="Recherche ..."></b-form-input>
+                <b-btn :disabled="!filterInscription" @click="filterInscription = ''">Annuler</b-btn>
+              </b-input-group>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <!-- Tables pour les demandes d'inscription -->
+        <b-table striped hover head-variant="dark" stacked="sm" :items="itemsInscription" :fields="fieldsInscription" :filter="filterInscription">
+          <!-- Colonne fictive pour les checkbox de selection. Le "b-form-checkbox-group" se trouve à l'interieur de la boucle
+      car sinon les checkboxs ne s'affichaient pas. Le v-model est récupéré plus bas dans le Ajax-form. -->
+          <template slot="selectionner" scope="row">
+            <b-form-checkbox-group id="checkboxSelectDemandesInscription" name="checkboxSelectDemandesInscription" v-model="formData.selectedInscription">
+              <b-form-checkbox :value="row.value"></b-form-checkbox>
+            </b-form-checkbox-group>
+          </template>
+        </b-table>
+
+        <div class="row">
+          <!-- Ajax-form to validate the selected inscription demands -->
+          <ajax-form class="col-6" action="validerInscription" :syncing.sync="syncing" :cloud-error.sync="cloudErrorInscription" :form-data="formData" :form-rules="formRulesInscription" :form-errors.sync="formErrors" @submitted="submittedFormInscription">
+            <div class="form-group">
+              <input type="hidden" class="form-control" :value="formData.selectedInscription">
+            </div>
+            <p class="text-danger" v-if="cloudErrorInscription==='emptyArray'"><small>Aucune demande selectionnée pour validation.</small></p>
+            <p class="text-danger" v-else-if="cloudErrorInscription"><small>Une erreur est servenu lors du traitement de votre requête. Veuillez vérifier vos informations ou <a href="/contact">contacter le support</a> si l'erreur persiste.</small></p>
+            <div class="form-group">
+              <ajax-button :syncing="syncing" class="btn-dark btn-lg btn-block" :class="[formData.selectedInscription.length ? '' : 'disabled']">Valider les demandes</ajax-button>
+            </div>
+          </ajax-form>
+
+          <!-- Ajax-form to remove the selected inscription demands -->
+          <ajax-form class="col-6" action="removeInscriptionDemande" :syncing.sync="syncing" :cloud-error.sync="cloudErrorInscription" :form-data="formData" :form-rules="formRulesInscription" :form-errors.sync="formErrors" @submitted="submittedFormRmInscription">
+            <div class="form-group">
+              <input type="hidden" class="form-control" :value="formData.selectedInscription">
+            </div>
+            <p class="text-danger" v-if="cloudErrorInscription==='emptyArray'"><small>Aucune demande selectionnée pour validation.</small></p>
+            <p class="text-danger" v-else-if="cloudErrorInscription"><small>Une erreur est servenu lors du traitement de votre requête. Veuillez vérifier vos informations ou <a href="/contact">contacter le support</a> si l'erreur persiste.</small></p>
+            <div class="form-group">
+              <ajax-button :syncing="syncing" class="btn-dark btn-lg btn-block" :class="[formData.selectedInscription.length ? '' : 'disabled']">Supprimer les demandes</ajax-button>
+            </div>
+          </ajax-form>
+        </div>
+      </div>
+    </template>
+
+  </div>
+
+</div>
+
+<%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>
